@@ -1,0 +1,60 @@
+Num Tasks: 6
+0 95 1250 1250 0
+1 188 1563 1563 500
+2 1072 3906 3906 700
+3 2144 7812 7812 300
+4 1072 62500 62500 120
+5 893 125000 125000 0
+95 : 95
+Worst-Case Response time for Task 0 is 95	and its relative deadline is 1250
+188 : 283
+283 : 283
+Worst-Case Response time for Task 1 is 283	and its relative deadline is 1563
+1072 : 1355
+1355 : 1450
+1450 : 1450
+Worst-Case Response time for Task 2 is 1450	and its relative deadline is 3906
+2144 : 3782
+3782 : 4160
+4160 : 5232
+5232 : 5515
+5515 : 5515
+Worst-Case Response time for Task 3 is 5515	and its relative deadline is 7812
+1072 : 4571
+4571 : 6304
+6304 : 6870
+6870 : 6870
+Worst-Case Response time for Task 4 is 6870	and its relative deadline is 62500
+893 : 5464
+5464 : 7480
+7480 : 7763
+7763 : 7858
+7858 : 11262
+11262 : 11923
+11923 : 12995
+12995 : 13278
+13278 : 13278
+Worst-Case Response time for Task 5 is 13278	and its relative deadline is 125000
+The tasks are schedulable according to Rate-Monotonic Analysis (RMA).
+0: Adding Task 0
+0: Adding Task 5
+0 0 0
+1 0 0
+2 0 0
+3 0 0
+4 0 0
+5 0 0
+6 0 0
+7 0 0
+8 0 0
+9 0 0
+10 0 0
+11 0 0
+12 0 0
+13 0 0
+14 0 0
+15 0 0
+16 0 0
+17 0 0
+18 0 0
+19 0 0
