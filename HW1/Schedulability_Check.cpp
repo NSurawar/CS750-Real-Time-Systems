@@ -4,32 +4,14 @@
 #include <vector>
 #include <set>
 using namespace std;
+#include "/Users/neerajsurawar/git/CS750/HW1/Task.h"
+#include "/Users/neerajsurawar/git/CS750/HW1/Scheduler.h"
+
 //TODO: Remove set and use heap
 //Add Policy fields
 //Move classes to their own files
 //Add instance ID
 //Derive class for instance
-
-//template<typename Z>
-struct Task {
-    int taskId;
-    int C; //Worst Case ComputaTon Tme
-    int T; //Tme Period
-    int D; //Relative Deadline = T (for LL tasks)
-    int I; //Phase
-
-    int processed_time  = 0; //Used for instances //TODO: Add Instance class derived from Task
-    int numInstances    = 0;
-    int instanceId      = 0;
-
-    bool operator<(const Task& Task2) const {
-        return D < Task2.D;    //Scheduler's Set uses this to sort tasks
-    }
-
-    Task(int _C, int _T, int _D, int _I) : C(_C), T(_T), D(_D), I(_I) {}
-    Task() : C(0), T(0), D(0), I(0) {}
-};
-
 
 double get_LCM(const vector<Task>& tasks) {
     return 0;
@@ -67,60 +49,9 @@ bool is_schedulable(const vector<Task>& tasks) {
     return true;
 }
 
-
-class Scheduler {
-public:
-    vector<Task> s_tasks;   //Store all tasks
-    set<Task> available_tasks;
-
-    int s_clock = 0;    //Clock counter;
-
-    void clock_rma() {
-        //Insert any new tasks for this clock
-        for(int idx = 0; idx < s_tasks.size(); idx++) {
-            if((s_clock - s_tasks[idx].I)%s_tasks[idx].T == 0) {
-                Task I(s_tasks[idx].C, s_tasks[idx].T, s_tasks[idx].D, s_tasks[idx].I);
-                I.taskId = s_tasks[idx].taskId;
-                available_tasks.insert(I);
-                cout << s_clock << ": Adding Task " << idx << endl;
-            }
-        }
-
-        /*for(auto s: available_tasks) {
-            cout << s_clock << ":Order: Task " << s.taskId << endl;
-        }*/
-
-        //Process tasks for this clock
-        if(!available_tasks.empty()) {
-            Task winner_task = *(available_tasks.begin());
-            winner_task.processed_time++;
-            cout << s_clock << " " << winner_task.taskId << " " << winner_task.instanceId << endl;
-
-            //Since we cannot update objects inside a set, just removed and add a new one
-            available_tasks.erase(available_tasks.begin());
-            available_tasks.insert(winner_task);
-
-            //If done processing then remove
-            if(winner_task.processed_time == winner_task.C) {
-                cout << s_clock << ":Removing Task " << winner_task.taskId << endl;
-                available_tasks.erase(available_tasks.begin());
-            }
-        }
-        //Check that no 2 instances have the same taskId i.e. no 2 instances of a task are present at a given moment
-        s_clock++;
-    }
-
-    void process_rma(int max_clock) {
-        for(int idx = 0; idx < max_clock; idx++) clock_rma();
-    }
-
-    Scheduler(vector<Task>_tasks) : s_tasks(_tasks) {}
-};
-
-
 int main() {
     //Reading Tasks
-    string filename = "tasks_q1.csv";
+    string filename = "tasks.csv";
     ifstream file(filename);
 
     if (!file.is_open()) {
