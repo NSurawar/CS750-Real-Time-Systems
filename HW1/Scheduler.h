@@ -14,10 +14,16 @@ public:
     std::deque<Instance> available_tasks;
 
     int s_clock = 0;    //Clock counter;
+    bool schedule_rma = true;
 
-    void clock_rma();
+    void setup_engine(int max_clock);
+    void clock();
 
-    void process_rma(int max_clock);
+    //RMA
+    void process_rma();
+
+    //EDF
+    void process_edf();
 
     Scheduler(std::vector<Task>_tasks) : s_tasks(_tasks) {}
 };

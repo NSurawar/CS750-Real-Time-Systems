@@ -90,7 +90,8 @@ int main() {
     if (is_schedulable(tasks)) {
         cout << "The tasks are schedulable according to Rate-Monotonic Analysis (RMA)." << endl;
         Scheduler S(tasks);
-        S.process_rma(20);
+        S.schedule_rma = false;
+        S.setup_engine(20);
     } else {
         cout << "The tasks are not schedulable according to Rate-Monotonic Analysis (RMA)." << endl;
     }

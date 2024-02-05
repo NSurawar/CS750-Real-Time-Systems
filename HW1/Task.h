@@ -20,6 +20,7 @@ struct Task {
 struct Instance: public Task {
     int processed_time  = 0; //Used for instances //TODO: Add Instance class derived from Task
     int instanceId      = 0;
+    int absolute_deadline = 0;
     
     Instance(int _C, int _T, int _D, int _I) : Task(_C,_T,_D,_I) {}
     Instance() : Task() {}
