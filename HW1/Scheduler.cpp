@@ -20,7 +20,7 @@ void Scheduler::process_rma() {
 
                 //available_tasks.insert(I);
                 available_tasks.push_back(I);
-                cout << s_clock << ": Adding Task " << idx << " taskId: " << I.taskId << endl;
+                //cout << s_clock << ": Adding Task " << idx << " taskId: " << I.taskId << endl;
             }
         }
 
@@ -35,11 +35,14 @@ void Scheduler::process_rma() {
 
             //If done processing then remove
             if(available_tasks.front().processed_time == available_tasks.front().C) {
-                cout << s_clock << ":Removing Task " << available_tasks.front().taskId << endl;
+                //cout << s_clock << ":Removing Task " << available_tasks.front().taskId << endl;
                 available_tasks.pop_front();
             }
         }
-        //TODO: Check that no 2 instances have the same taskId i.e. no 2 instances of a task are present at a given moment
+        else cout << s_clock << " -1 -1" << endl;
+        
+        //TODO: 
+        //For HWs where T < D - Check that no 2 instances have the same taskId i.e. no 2 instances of a task are present at a given moment
         s_clock++;
 }
 
@@ -55,7 +58,7 @@ void Scheduler::process_edf() {
 
                 //available_tasks.insert(I);
                 available_tasks.push_back(I);
-                cout << s_clock << ": Adding Task " << idx << " taskId: " << I.taskId << endl;
+                //cout << s_clock << ": Adding Task " << idx << " taskId: " << I.taskId << endl;
             }
         }
 
@@ -70,11 +73,13 @@ void Scheduler::process_edf() {
 
             //If done processing then remove
             if(available_tasks.front().processed_time == available_tasks.front().C) {
-                cout << s_clock << ":Removing Task " << available_tasks.front().taskId << endl;
+                //cout << s_clock << ":Removing Task " << available_tasks.front().taskId << endl;
                 available_tasks.pop_front();
             }
         }
-        //TODO: Check that no 2 instances have the same taskId i.e. no 2 instances of a task are present at a given moment
+        else cout << s_clock << " -1 -1" << endl;
+        //TODO: 
+        //For HWs where T < D - Check that no 2 instances have the same taskId i.e. no 2 instances of a task are present at a given moment
         s_clock++;
 }
 
