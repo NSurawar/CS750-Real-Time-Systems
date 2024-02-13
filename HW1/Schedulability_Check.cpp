@@ -36,7 +36,7 @@ double calculate_response_Time(int task_index, const vector<Task>& tasks) {
 bool is_schedulable(const vector<Task>& tasks) {
     for (size_t i = 0; i < tasks.size(); ++i) {
         double response_Time = calculate_response_Time(i, tasks);
-        //std::cout << "Worst-Case Response time for Task " << i << " is " << response_Time << "\tand its relative deadline is " << tasks[i].D << endl;
+        std::cout << "Worst-Case Response time for Task " << i << " is " << response_Time << "\tand its relative deadline is " << tasks[i].D << endl;
         if (response_Time > tasks[i].D) {
             return false;
         }
