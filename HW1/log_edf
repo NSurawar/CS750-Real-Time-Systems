@@ -1,5 +1,11 @@
 Num Tasks: 3
+Worst-Case Response time for Task 0 is 1 and its relative deadline is 3
+Worst-Case Response time for Task 1 is 3 and its relative deadline is 5
+Worst-Case Response time for Task 2 is 9 and its relative deadline is 9
 The tasks are schedulable according to Rate-Monotonic Analysis (RMA).
+Util = 0.955556
+The tasks are schedulable according to Early Deadline First (EDF)
+Util = 0.955556
 0 0 0
 1 1 0
 2 1 0

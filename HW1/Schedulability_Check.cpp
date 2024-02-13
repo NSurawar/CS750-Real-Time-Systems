@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <cmath>
 #include <vector>
 #include <set>
@@ -33,15 +34,26 @@ double calculate_response_Time(int task_index, const vector<Task>& tasks) {
     return response_Time;
 }
 
-bool is_schedulable(const vector<Task>& tasks) {
+bool is_schedulable_rma(const vector<Task>& tasks) {
     for (size_t i = 0; i < tasks.size(); ++i) {
         double response_Time = calculate_response_Time(i, tasks);
-        std::cout << "Worst-Case Response time for Task " << i << " is " << response_Time << "\tand its relative deadline is " << tasks[i].D << endl;
+        std::cout << "Worst-Case Response time for Task " << i << " is " << response_Time << " and its relative deadline is " << tasks[i].D << endl;
         if (response_Time > tasks[i].D) {
             return false;
         }
     }
     return true;
+}
+
+bool is_schedulable_edf(const vector<Task>& tasks) {
+    double util = 0;
+
+    for (size_t i = 0; i < tasks.size(); ++i) {
+        util += static_cast<double> (tasks[i].C)/tasks[i].T;
+    }
+    //cout << "Util = " << util << endl;
+
+    return util <= 1;
 }
 
 //Not need for HW1 - Run till 125000
@@ -51,7 +63,7 @@ double get_LCM(const vector<Task>& tasks) {
 
 int main() {
     //Reading Tasks
-    string filename = "tasks.csv";
+    string filename = "TaskSet2.csv";
     ifstream file(filename);
 
     if (!file.is_open()) {
@@ -61,21 +73,38 @@ int main() {
 
     int num_tasks;
     file >> num_tasks;
-    cout << "Num Tasks: " << num_tasks << endl;
+
+    //cout << "Num Tasks: " << num_tasks << endl;
 
     //Storing all tasks in Relative deadline order
-    vector<Task> tasks(num_tasks);
+    vector<Task> tasks;
+    
+    string line;
 
-    for (int i = 0; i < num_tasks; ++i) {
-        file >> tasks[i].taskId >> tasks[i].C >> tasks[i].T >> tasks[i].D >> tasks[i].I;
+    while (getline(file, line)) {
+        stringstream ss(line);
+        vector<int> values;
+        string token;
+
+        while (getline(ss, token, ',')) {
+            values.push_back(stoi(token));
+        }
+
+        if (values.size() != 5) {
+            continue; // Skip this line
+        }
+
+        Task task;
+        task.taskId = values[0];
+        task.C = values[1];
+        task.T = values[2];
+        task.D = values[3];
+        task.I = values[4];
+
+        tasks.push_back(task);
     }
 
     file.close();
-
-
-    for (int i = 0; i < num_tasks; ++i) {
-        //cout << tasks[i].taskId << " " << tasks[i].C << " " << tasks[i].T << " " << tasks[i].D << " " << tasks[i].I << endl;
-    }
 
     //Put tasks in relaTve deadline order
     /*vector<Task> tasks = {
@@ -88,15 +117,29 @@ int main() {
     };*/
 
     int run_time = 125000; //Instead of LCM
+    
+    //Instantiating the Scheduler
+    Scheduler S(tasks);
 
-    if (is_schedulable(tasks)) {
+    if (is_schedulable_rma(tasks)) {
         cout << "The tasks are schedulable according to Rate-Monotonic Analysis (RMA)." << endl;
-        Scheduler S(tasks);
-        S.schedule_rma = false;
+        S.schedule_rma = true; //Schedule via RMA
         S.setup_engine(run_time);
-    } else {
+    }
+    else {
         cout << "The tasks are not schedulable according to Rate-Monotonic Analysis (RMA)." << endl;
     }
+
+    if (is_schedulable_edf(tasks)) {
+        cout << "The tasks are schedulable according to Early Deadline First (EDF)" << endl;
+        S.schedule_rma = false; //Schedule via EDF
+        S.s_clock = 0;
+        S.setup_engine(run_time);
+    }
+    else {
+        cout << "The tasks are not schedulable according to Early Deadline First (EDF)" << endl;
+    }
+
 
     return 0;
 }
