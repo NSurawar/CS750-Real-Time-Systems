@@ -1,0 +1,178 @@
+Worst-Case Response time for Task 0 is 2 and its relative deadline is 7
+Worst-Case Response time for Task 1 is 3 and its relative deadline is 15
+The tasks are schedulable according to Rate-Monotonic Analysis (RMA).
+SS Capacity = 3
+Setting RT = 10
+0 0 0
+SS Capacity = 3
+1 0 0
+SS Capacity = 3
+2 SS 10
+SS Capacity = 2
+3 SS 10
+SS Capacity = 1
+Moving to Idle 4
+4 1 0
+SS Capacity = 1
+5 -1 -1
+SS Capacity = 1
+6 -1 -1
+SS Capacity = 1
+Setting RT = 17
+7 0 1
+SS Capacity = 1
+8 0 1
+SS Capacity = 1
+9 SS 11
+Replenishing to 3
+SS Capacity = 3
+10 SS 11
+SS Capacity = 2
+11 SS 11
+SS Capacity = 1
+12 SS 12
+SS Capacity = 0
+Moving to Idle 13
+13 SS 12
+SS Capacity = 0
+Setting RT = 24
+14 0 2
+SS Capacity = 0
+15 0 2
+SS Capacity = 0
+Moving to Idle 16
+16 1 1
+Replenishing to 3
+SS Capacity = 3
+Setting RT = 27
+17 SS 12
+SS Capacity = 2
+Moving to Idle 18
+18 -1 -1
+SS Capacity = 2
+19 -1 -1
+SS Capacity = 2
+20 -1 -1
+SS Capacity = 2
+Setting RT = 31
+21 0 3
+SS Capacity = 2
+22 0 3
+SS Capacity = 2
+Moving to Idle 23
+23 -1 -1
+Replenishing to 3
+SS Capacity = 3
+24 -1 -1
+SS Capacity = 3
+25 -1 -1
+SS Capacity = 3
+26 -1 -1
+Replenishing to 3
+SS Capacity = 3
+27 -1 -1
+SS Capacity = 3
+Setting RT = 38
+28 0 4
+SS Capacity = 3
+29 0 4
+SS Capacity = 3
+Moving to Idle 30
+30 1 2
+Replenishing to 3
+SS Capacity = 3
+31 -1 -1
+SS Capacity = 3
+32 -1 -1
+SS Capacity = 3
+33 -1 -1
+SS Capacity = 3
+34 -1 -1
+SS Capacity = 3
+Setting RT = 45
+35 0 5
+SS Capacity = 3
+36 0 5
+SS Capacity = 3
+Moving to Idle 37
+37 -1 -1
+Replenishing to 3
+SS Capacity = 3
+38 -1 -1
+SS Capacity = 3
+39 -1 -1
+SS Capacity = 3
+40 -1 -1
+SS Capacity = 3
+41 -1 -1
+SS Capacity = 3
+Setting RT = 52
+42 0 6
+SS Capacity = 3
+43 0 6
+SS Capacity = 3
+Moving to Idle 44
+44 -1 -1
+Replenishing to 3
+SS Capacity = 3
+45 1 3
+SS Capacity = 3
+46 -1 -1
+SS Capacity = 3
+47 -1 -1
+SS Capacity = 3
+48 -1 -1
+SS Capacity = 3
+Setting RT = 59
+49 0 7
+The tasks are schedulable according to Early Deadline First (EDF)
+0 0 7
+1 0 8
+2 0 8
+3 1 4
+4 -1 -1
+5 -1 -1
+6 -1 -1
+7 0 9
+8 0 9
+9 -1 -1
+10 -1 -1
+11 -1 -1
+12 -1 -1
+13 -1 -1
+14 0 10
+15 0 10
+16 1 5
+17 -1 -1
+18 -1 -1
+19 -1 -1
+20 -1 -1
+21 0 11
+22 0 11
+23 -1 -1
+24 -1 -1
+25 -1 -1
+26 -1 -1
+27 -1 -1
+28 0 12
+29 0 12
+30 1 6
+31 -1 -1
+32 -1 -1
+33 -1 -1
+34 -1 -1
+35 0 13
+36 0 13
+37 -1 -1
+38 -1 -1
+39 -1 -1
+40 -1 -1
+41 -1 -1
+42 0 14
+43 0 14
+44 -1 -1
+45 1 7
+46 -1 -1
+47 -1 -1
+48 -1 -1
+49 0 15
