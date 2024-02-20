@@ -190,14 +190,18 @@ int main() {
             }
         }
 
-        cout << "Schedule for SS.T = " << period_idx << " C = " << max_C << endl;
+        if(max_C == 0) {    
+            cout << "It's not possible to schedule this set for SS.T = " << S.SS.T << endl;
+        }else {
+            cout << "Schedule for SS.T = " << period_idx << " C = " << max_C << endl;
 
-        S.SS.C = max_C;
-        S.schedule_rma = true; //Schedule via RMA
-        S.setup_engine(run_time);
+            S.SS.C = max_C;
+            S.SS.capacity = max_C;
+            S.schedule_rma = true; //Schedule via RMA
+            S.setup_engine(run_time);
 
-        cout << "Average response_time: " << (double)S.SS.total_resp_time/S.SS.num_processed << endl;
-
+            cout << "Average response_time: " << (double)S.SS.total_resp_time/S.SS.num_processed << endl;
+        }
     }
 
 

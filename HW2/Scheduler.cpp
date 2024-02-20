@@ -41,7 +41,6 @@ void Scheduler::process_rma_ss() {
         //Sort the deque
         sort(available_tasks.begin(), available_tasks.end(), comparePriorityRMA);
 
-
         //Replenish if it is time
         if(SS.replenishment_times.count(s_clock)) {
             if(idle_idx < replenish_idx) cerr << "How can idle index be less than replenish index " << endl;
@@ -90,29 +89,22 @@ void Scheduler::process_rma_ss() {
             }
         }
 
-
-
+        
         //Move to idle if Lower Priority Periodic task is going on
         if(SS.isActive && ((!scheduleSS && !available_tasks.empty() && available_tasks.front().D > SS.D) || (available_tasks.empty() && SS.capacity <= 0) || (available_tasks.empty() && available_aperiodic_tasks.empty()))) {
-            if(debug_ap) cout << s_clock << " : Moving to Idle " << s_clock << endl;
+            if(debug_ap) cout << s_clock << " : Moving to Idle" << endl;
             SS.isActive = false;
             idle_idx++;
         }
 
-
         //SS is Active if Capacity > 0 & a higher priority task is going on or SS is going on
         if(!SS.isActive && ((scheduleSS && SS.capacity > 0) || (!available_tasks.empty() && available_tasks.front().D < SS.D))) {
-            //Moving from Idle to Active
-                std::queue<Instance> temp_tasks = available_aperiodic_tasks;
-                int rc = 0;
-                while(!temp_tasks.empty()) { //FIXME: Check if this logic is correct. Replenishment capacity = Max(SS.T, Sum of aperiodic tasks' C - the processed time of any partially done AP task)
-                    rc += temp_tasks.front().C - temp_tasks.front().processed_time;
-                    temp_tasks.pop();
-                }
-                SS.replenishment_times[s_clock + SS.T] = 0; //min(SS.C, rc);)
-                //cout << "Setting RT = " << (s_clock + SS.T) << " amount " << SS.replenishment_times[s_clock + SS.T] << endl;
+                if(debug_ap) cout << s_clock << " : Moving to Active" << endl;
 
-            SS.isActive = true;
+                SS.replenishment_times[s_clock + SS.T] = 0; //Only replenish when capacity is > 0
+                if(debug_ap) cout << s_clock << " : Setting Replenishment time = " << s_clock + SS.T << endl;
+                
+                SS.isActive = true;
         }
 
         if(scheduleSS && !available_aperiodic_tasks.empty() || (available_tasks.empty() && !available_aperiodic_tasks.empty())) {
@@ -147,7 +139,7 @@ void Scheduler::process_rma_ss() {
             }
         }
         else cout << s_clock << " -1 -1" << endl;
-        
+
         //TODO: 
         //For HWs where T < D - Check that no 2 instances have the same taskId i.e. no 2 instances of a task are present at a given moment
         s_clock++;

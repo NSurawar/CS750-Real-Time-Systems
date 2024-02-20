@@ -35,13 +35,18 @@ public:
 
     //Reset
     void reset() {
+        SS.isActive = false;
         s_clock = 0;
+        idle_idx = 0;
+        replenish_idx = 0;
+        ss_time = 0;
 
         while(!available_aperiodic_tasks.empty()) available_aperiodic_tasks.pop();
 
         available_tasks.clear();
         aperiodic_tasks.clear();
         s_tasks.clear();
+        replenish_capacity.clear();
     }
 
     void set_tasks(std::vector<Task>tasks) {
