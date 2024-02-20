@@ -5,7 +5,7 @@
 #include <vector>
 #include <deque>
 #include <set>
-#include "/Users/neerajsurawar/git/CS750/HW1/Task.h"
+#include "/Users/neerajsurawar/git/CS750/HW2/Task.h"
 
 class Scheduler {
 public:
@@ -32,7 +32,31 @@ public:
 
     //RMA with SS
     void process_rma_ss();
+
+    //Reset
+    void reset() {
+        s_clock = 0;
+
+        while(!available_aperiodic_tasks.empty()) available_aperiodic_tasks.pop();
+
+        available_tasks.clear();
+        aperiodic_tasks.clear();
+        s_tasks.clear();
+    }
+
+    void set_tasks(std::vector<Task>tasks) {
+        s_tasks = tasks;
+    }
     
+    //For SS
+    std::vector<int> replenish_capacity;
+    int idle_idx = 0;
+    int replenish_idx = 0;
+    int ss_time = 0;
+
+    bool debug_p = false;
+    bool debug_ap  = false;
+
     Scheduler(std::vector<Task>_tasks) : s_tasks(_tasks) {}
 };
 

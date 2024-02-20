@@ -33,6 +33,8 @@ struct SporadicServer : public Task {
     bool isActive = false;
     int capacity = 0;
     std::map<int, int> replenishment_times;
+    int total_resp_time = 0;
+    int num_processed = 0;
 
     SporadicServer(int _C, int _T, int _D, int _I) : Task(_C,_T,_D,_I), capacity(_C) {}
     SporadicServer() : Task() {}

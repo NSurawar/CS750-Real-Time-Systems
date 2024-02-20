@@ -5,20 +5,18 @@
 #include <vector>
 #include <set>
 using namespace std;
-#include "/Users/neerajsurawar/git/CS750/HW1/Task.h"
-#include "/Users/neerajsurawar/git/CS750/HW1/Scheduler.h"
+#include "/Users/neerajsurawar/git/CS750/HW2/Task.h"
+#include "/Users/neerajsurawar/git/CS750/HW2/Scheduler.h"
 
-//TODO: Remove set and use heap
-//Add Policy fields
-//Move classes to their own files
-//Add instance ID
-//Derive class for instance
+bool comparePriorityRMA(const Task& I1, const Task& I2) {
+    return I1.D < I2.D;
+}
 
 //Ignore Phase since worst case response Tme is when all tasks are scheduled at the same Tme.
 double calculate_response_Time(int task_index, const vector<Task>& tasks) {
     double response_Time = tasks[task_index].C;
 
-    //Assuing tasks are sorted based on their relaTve deadlines - Only check for indexes lower than yours
+    //Assuming tasks are sorted based on their relative deadlines - Only check for indexes lower than yours
     while(1) {
         double prev_response_Time = response_Time;
         response_Time = tasks[task_index].C;
@@ -62,8 +60,8 @@ double get_LCM(const vector<Task>& tasks) {
 }
 
 int main() {
-    //Reading Tasks
-    string filename = "tasks_temp.csv";
+    //Reading Aperiodic Tasks
+    string filename = "aperiodic_tasks.csv";
     ifstream file(filename);
 
     if (!file.is_open()) {
@@ -72,56 +70,74 @@ int main() {
     }
 
     int num_tasks;
-    file >> num_tasks;
-
-    //cout << "Num Tasks: " << num_tasks << endl;
 
     //Storing all tasks in Relative deadline order
     vector<Task> tasks;
     
-    string line;
+    //HW2
+    Task task1(3,7,7,0);
+    task1.taskId = 0;
+    Task task2(2,13,13,0);
+    task2.taskId = 1;
+    tasks.push_back(task1);
+    tasks.push_back(task2);
 
+    /* //Class Example
+    Task task1(2,7,7,0);
+    Task task2(1,15,15,0);
+    tasks.push_back(task1);
+    tasks.push_back(task2);
+    */
+
+    //Initalize the scheduler
+    Scheduler S(tasks);
+
+
+    //Read the AP tasks and populate in S
+    string line;
     while (getline(file, line)) {
         stringstream ss(line);
         vector<int> values;
         string token;
 
         while (getline(ss, token, ',')) {
-            values.push_back(stoi(token));
+            int t = std::stoi(token);
+            values.push_back(t);
         }
 
-        if (values.size() != 5) {
+        //TaskID C I - Aperiodic Tasks format
+        if (values.size() != 3) {
             continue; // Skip this line
         }
 
         Task task;
         task.taskId = values[0];
         task.C = values[1];
-        task.T = values[2];
-        task.D = values[3];
-        task.I = values[4];
 
-        tasks.push_back(task);
+        task.T = 0;
+        task.D = 0;
+        task.I = values[2];
+
+        //HW Q.2 & Q.3
+        S.aperiodic_tasks.push_back(task);
     }
 
     file.close();
 
-    //Put tasks in relaTve deadline order
-    /*vector<Task> tasks = {
-        {95, 1250, 1250, 0},
-        {188, 1563, 1563, 500},
-        {1072, 3906, 3906, 700},
-        {2144, 7812, 7812, 300},
-        {1072, 62500, 62500, 120},
-        {893, 125000, 125000, 0}
-    };*/
-
-    int run_time = 50; //Instead of LCM
+    int run_time = 15000; //Instead of LCM
     
-    //Instantiating the Scheduler
-    Scheduler S(tasks);
-
-    /*Task A1 = Task(2,0,0,2);
+    //Class Example
+    /*
+    Task A1 = Task(2,0,0,1);
+    A1.taskId = 10;
+    Task A2 = Task(3,0,0,7);
+    A2.taskId = 11;
+    Task A3= Task(3,0,0,9);
+    A3.taskId = 12;
+    */
+    //HW2 Q.1
+    /*
+    Task A1 = Task(2,0,0,2);
     A1.taskId = 10;
     Task A2 = Task(1,0,0,6);
     A2.taskId = 11;
@@ -130,42 +146,58 @@ int main() {
     Task A4= Task(1,0,0,15);
     A4.taskId = 13;
 
-    S.aperiodic_tasks.push_back(A1);
-    S.aperiodic_tasks.push_back(A2);
-    S.aperiodic_tasks.push_back(A3);
-    S.aperiodic_tasks.push_back(A4);*/
-    Task A1 = Task(2,0,0,1);
-    A1.taskId = 10;
-    Task A2 = Task(3,0,0,7);
-    A2.taskId = 11;
-    Task A3= Task(3,0,0,9);
-    A3.taskId = 12;
 
 
     S.aperiodic_tasks.push_back(A1);
     S.aperiodic_tasks.push_back(A2);
     S.aperiodic_tasks.push_back(A3);
+    S.aperiodic_tasks.push_back(A4); //For HW2 Q.1 example
+
+    //For Q.1
+    S.SS = SporadicServer(4,12,12,0);
+    S.schedule_rma = true; //Schedule via RMA
+    S.setup_engine(run_time);
+    */
+
+    //For Q.2 and Q.3
     
-    //Instantiating the Sporadic Server
-    S.SS = SporadicServer(3,10,10,0);
+    std::vector<Task>aperiodic_tasks_buffer = S.aperiodic_tasks;
 
-    if (is_schedulable_rma(tasks)) {
-        cout << "The tasks are schedulable according to Rate-Monotonic Analysis (RMA)." << endl;
+    for(int period_idx = 2; period_idx <= 14; period_idx++) {
+
+        S.reset();
+        S.set_tasks(tasks);
+
+        //Instantiating the Sporadic Server
+        S.SS = SporadicServer(3,period_idx,period_idx,0);
+        S.aperiodic_tasks = aperiodic_tasks_buffer;
+        cout << "Num aperiodic Tasks: " << S.aperiodic_tasks.size()  << endl;
+
+        int max_C = 0;
+
+        for(int C = 1; C < S.SS.T; C++) {
+            Task temp(C, S.SS.T, S.SS.T, 0);
+            vector<Task> temp_tasks = tasks;
+            temp_tasks.push_back(temp);
+
+            sort(temp_tasks.begin(), temp_tasks.end(), comparePriorityRMA);
+            if(is_schedulable_rma(temp_tasks)) {
+                max_C = max(max_C, C);
+            }
+            else {
+                cout << "Not schedulable for SS.T = " << S.SS.T << " and C = " << C << endl;
+                break; //No other higher value of C is going to help here anyway
+            }
+        }
+
+        cout << "Schedule for SS.T = " << period_idx << " C = " << max_C << endl;
+
+        S.SS.C = max_C;
         S.schedule_rma = true; //Schedule via RMA
         S.setup_engine(run_time);
-    }
-    else {
-        cout << "The tasks are not schedulable according to Rate-Monotonic Analysis (RMA)." << endl;
-    }
 
-    if (is_schedulable_edf(tasks)) {
-        cout << "The tasks are schedulable according to Early Deadline First (EDF)" << endl;
-        S.schedule_rma = false; //Schedule via EDF
-        S.s_clock = 0;
-        S.setup_engine(run_time);
-    }
-    else {
-        cout << "The tasks are not schedulable according to Early Deadline First (EDF)" << endl;
+        cout << "Average response_time: " << (double)S.SS.total_resp_time/S.SS.num_processed << endl;
+
     }
 
 

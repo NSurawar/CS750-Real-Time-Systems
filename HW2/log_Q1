@@ -1,7 +1,0 @@
-Worst-Case Response time for Task 0 is 95 
-Worst-Case Response time for Task 1 is 283 
-Worst-Case Response time for Task 2 is 1450 
-Worst-Case Response time for Task 3 is 5515 
-Worst-Case Response time for Task 4 is 6870 
-Worst-Case Response time for Task 5 is 13278
-The tasks are schedulable according to Rate-Monotonic Analysis (RMA).
